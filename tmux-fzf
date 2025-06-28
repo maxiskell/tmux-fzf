@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+roots=(~/notes ~/dev{,/lab,/personal,/personal/games})
+path="$(find "${roots[@]}" -maxdepth 1 -type d | fzf)"
+session=$(basename $path)
+
+cd -- $path
+
+if [[ -z $TMUX ]]; then
+  tmux new-session -As "$session"
+else
+  if ! tmux has-session -t $session 2>/dev/null; then
+    tmux new-session -ds $session
+  fi
+
+  tmux switch-client -t "$session"
+fi
+
+exit 0
