@@ -4,7 +4,7 @@ roots=($HOME/notes $HOME/dev{,/lab,/personal,/personal/games})
 path="$(find "${roots[@]}" -maxdepth 1 -type d | sed "s|^$HOME/||" | fzf)"
 session=$(basename $path)
 
-cd -- $path
+cd -- "$HOME/$path"
 
 if [[ -z $TMUX ]]; then
   tmux new-session -As "$session"
